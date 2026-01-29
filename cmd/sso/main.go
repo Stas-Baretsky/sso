@@ -1,10 +1,10 @@
 package main
 
 import (
+	"grpc-service-ref/internal/app"
+	"grpc-service-ref/internal/config"
 	"log/slog"
 	"os"
-	"sso/internal/app"
-	"sso/internal/config"
 )
 
 const (
