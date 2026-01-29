@@ -20,7 +20,7 @@ func main() {
 
 	application := app.New(log, cfg.GRPC.Port, cfg.StoragePath, cfg.TokenTTL)
 
-	application.gRPCSrv.MustRun()
+	application.GRPCServer.MustRun()
 
 	// TODO: init app
 }
@@ -33,13 +33,13 @@ func setupLogger(env string) *slog.Logger {
 		log = slog.New(
 			slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}),
 		)
-	case dev:
+	case envDev:
 		log = slog.New(
-			slog.NewJsonHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}),
+			slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}),
 		)
-	case prod:
+	case envProd:
 		log = slog.New(
-			slog.NewJsonHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}),
+			slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}),
 		)
 	}
 	return log

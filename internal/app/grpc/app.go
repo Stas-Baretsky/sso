@@ -2,9 +2,9 @@ package grpcapp
 
 import (
 	"fmt"
+	authgrpc "grpc-service-ref/internal/grpc/auth"
 	"log/slog"
 	"net"
-	authgrpc "grpc-service-ref/internal/grpc/auth"
 
 	"google.golang.org/grpc"
 )
@@ -19,7 +19,7 @@ func New(
 	log *slog.Logger,
 	port int,
 ) *App {
-	gRPCServer := NewServer()
+	gRPCServer := grpc.NewServer()
 
 	authgrpc.Register(gRPCServer)
 
@@ -31,7 +31,7 @@ func New(
 }
 
 func (a *App) MustRun() {
-	if err := a.Run; err != nil {
+	if err := a.Run(); err != nil {
 		panic(err)
 	}
 }
@@ -58,11 +58,11 @@ func (a *App) Run() error {
 	return nil
 }
 
-func (a *App) Stop {
+func (a *App) Stop() {
 	const op = "grpcapp.Stop"
 
 	a.log.With(slog.String("op", op)).
 		Info("stopping gRPC server", slog.Int("port", a.port))
-	
+
 	a.gRPCServer.GracefulStop()
 }

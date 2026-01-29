@@ -7,7 +7,7 @@ import (
 )
 
 type App struct {
-	GRPCSrv *grpcapp.App
+	GRPCServer *grpcapp.App
 }
 
 func New(
@@ -21,6 +21,6 @@ func New(
 	grpcApp := grpcapp.New(log, grpcPort)
 
 	return &App{
-		GRPCSrv: grpcApp,
+		GRPCServer: grpcApp,
 	}
 }
