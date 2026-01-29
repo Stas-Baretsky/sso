@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log/slog"
 	"net"
-	authgrpc "sso/internal/grpc/auth"
+	authgrpc "grpc-service-ref/internal/grpc/auth"
 
 	"google.golang.org/grpc"
 )

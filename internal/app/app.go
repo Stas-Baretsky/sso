@@ -1,8 +1,8 @@
 package app
 
 import (
+	grpcapp "grpc-service-ref/internal/app/grpc"
 	"log/slog"
-	grpcapp "sso/internal/app/grpc"
 	"time"
 )
 
