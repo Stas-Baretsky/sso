@@ -123,4 +123,5 @@ func validateIsAdmin(req *ssov1.IsAdminRequest) error {
 	if req.GetUserId() == emptyValue {
 		return status.Error(codes.InvalidArgument, "user ID is empty")
 	}
+	return nil
 }
