@@ -5,6 +5,7 @@ go 1.25.6
 require (
 	github.com/Stas-Baretsky/protos v0.0.2
 	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/golang-migrate/migrate v3.5.4+incompatible
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	golang.org/x/crypto v0.47.0
 	google.golang.org/grpc v1.78.0
