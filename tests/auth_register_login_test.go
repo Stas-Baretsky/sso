@@ -31,11 +31,11 @@ func TestRegisterLogin_Login_HappyPath(t *testing.T) {
 		Password: password,
 	})
 	require.NoError(t, err)
-	assert.NotEmpty(t, respRegp)
+	assert.NotEmpty(t, respReg)
 
 	respLogin, err := st.AuthClient.Login(ctx, &ssov1.LoginRequest{
 		Email:    email,
-		Password: pass,
+		Password: password,
 		AppId:    appID,
 	})
 	require.NoError(t, err)
@@ -51,14 +51,14 @@ func TestRegisterLogin_Login_HappyPath(t *testing.T) {
 
 	require.NoError(t, err)
 
-	claims, ok := tokenParsed.Cliams.(jwt.MapClaims)
+	claims, ok := tokenParsed.Claims.(jwt.MapClaims)
 	assert.True(t, ok)
 
 	assert.Equal(t, respReg.GetUserId(), int64(claims["uid"].(float64)))
 	assert.Equal(t, email, claims["email"].(string))
 	assert.Equal(t, appID, int(claims["app_id"].(float64)))
 
-	deltaSeconds = 1
+	const deltaSeconds = 1
 
 	assert.InDelta(t, loginTime.Add(st.Cfg.TokenTTL), claims["exp"].(float64), deltaSeconds)
 }
