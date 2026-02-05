@@ -101,7 +101,7 @@ func (s *Storage) IsAdmin(ctx context.Context, userID int64) (bool, error) {
 func (s *Storage) App(ctx context.Context, id int) (models.App, error) {
 	const op = "storage.sqlite.App"
 
-	stmt, err := s.db.Prepare("SELECT id, name, secret FROM secret WHERE id = ?")
+	stmt, err := s.db.Prepare("SELECT id, name, secret FROM apps WHERE id = ?")
 	if err != nil {
 		return models.App{}, fmt.Errorf("%s: %w", op, err)
 	}

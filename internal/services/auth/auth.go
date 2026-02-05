@@ -54,6 +54,7 @@ func New(
 	tokenTTL time.Duration,
 ) *Auth {
 	return &Auth{
+		log:         log,
 		usrSaver:    userSaver,
 		usrProvider: userProvider,
 		appProvider: appProvider,
@@ -77,25 +78,29 @@ func (a *Auth) Login(
 	log.Info("attempting to login user")
 
 	user, err := a.usrProvider.User(ctx, email)
+
 	if err != nil {
 		if errors.Is(err, storage.ErrUserNotFound) {
 			a.log.Warn("user not found", sl.Err(err))
 
 			return "", fmt.Errorf("%s: %w", op, ErrInvalidCredentials)
 		}
-	}
+		a.log.Error("failed to get user", sl.Err(err))
 
+		return "", fmt.Errorf("%s: %w", op, err)
+	}
+	log.Info("user is received from database")
 	if err := bcrypt.CompareHashAndPassword(user.PassHash, []byte(password)); err != nil {
 		a.log.Info("invalid credentials", sl.Err(err))
 
 		return "", fmt.Errorf("%s: %w", op, ErrInvalidCredentials)
 	}
-
+	log.Info("Password is valid")
 	app, err := a.appProvider.App(ctx, appID)
 	if err != nil {
 		return "", fmt.Errorf("%s: %w", op, err)
 	}
-
+	
 	log.Info("user logged in successfully")
 
 	token, err := jwt.NewToken(user, app, a.tokenTTL)
